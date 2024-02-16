@@ -3,11 +3,10 @@ include_once "../../includes/header.php";
 include_once "../../includes/topnav.php";
 ?>
 
-
 <div class="container mt-4">
     <div class="col-md-4 m-auto">
         <h2>Add New Task</h2>
-        <form>
+        <form id="addTaskForm">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" class="form-control" id="title" placeholder="Enter task title" required>
@@ -28,22 +27,25 @@ include_once "../../includes/topnav.php";
                     <option value="High">High</option>
                 </select>
             </div>
-            <button type="submit" id="submit" class="btn btn-primary">Add Task</button>
+            <button type="submit" class="btn btn-primary">Add Task</button>
         </form>
     </div>
 </div>
 
+<?php include_once "../../includes/footer.php"; ?>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     $(document).ready(function() {
-        $('#submit').click(function(e) {
+        $('#addTaskForm').submit(function(e) {
             e.preventDefault();
             var title = $('#title').val();
             var description = $('#description').val();
             var dueDate = $('#dueDate').val();
             var priority = $('#priority').val();
             $.ajax({
-                $url. 'action.php',
                 type: 'POST',
+                url: 'add_task_action.php',
                 data: {
                     title: title,
                     description: description,
@@ -51,14 +53,25 @@ include_once "../../includes/topnav.php";
                     priority: priority
                 },
                 success: function(response) {
-                    alert(response);
-                    window.location.href = 'index.php';
+                    if (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Task added successfully!'
+                    }).then(function() {
+                        setTimeout(function() {
+                            window.location.href = 'index.php';
+                        }, 1000); // 1 second timeout
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Task adding failed!'
+                    });
+                }
                 }
             });
         });
     });
 </script>
-
-<?php
-include_once "../../includes/footer.php";
-?>
