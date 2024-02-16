@@ -10,7 +10,7 @@ include_once "../../includes/header.php";
                     <h5 class="card-title text-center">Register an Account</h5>
                 </div>
                 <div class="card-body">
-                    <form method="post" id="registerForm" action="action.php">
+                    <form method="post" id="registerForm" action="register_action.php" autocomplete="off">
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             <input type="text" class="form-control" id="username" name="username" required>
@@ -22,6 +22,9 @@ include_once "../../includes/header.php";
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="mb-3">
+                            <p class="text-danger" id="errorMessage"></p>
                         </div>
                         <button type="submit" id="submit" class="btn btn-primary w-100">Register</button>
                     </form>
@@ -43,25 +46,19 @@ include_once "../../includes/header.php";
             var email = $("#email").val();
             var password = $("#password").val();
 
-            console.log(name, email, password);
-
             $.ajax({
                 type: "POST",
-                url: "action.php",
+                url: "register_action.php",
                 data: {
                     username: name,
                     email: email,
                     password: password
                 },
                 success: function(response) {
-                    console.log(response);
                     if (response === 'success') {
                         window.location.href = "../dashboard/";
-                    } else if (response === 'already') {
-                        alert('Email already exists.');
-                        window.location.reload();
                     } else {
-                        alert(response);
+                        $('#errorMessage').text(response);
                     }
                 }
             });

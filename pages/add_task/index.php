@@ -42,7 +42,7 @@ include_once "../../includes/topnav.php";
             var dueDate = $('#dueDate').val();
             var priority = $('#priority').val();
             $.ajax({
-                url: 'action.php',
+                $url. 'action.php',
                 type: 'POST',
                 data: {
                     title: title,

@@ -1,5 +1,5 @@
 <?php
-include "../../config/config.php";
+include_once "../../config/config.php";
 
 // Start the session
 session_start();
@@ -11,6 +11,5 @@ $_SESSION = array();
 session_destroy();
 
 // Redirect to the login page or any other page as needed
-echo '<script>window.location.href = "' . url . '";</script>';
+header("Location: $url/pages/login");
 exit;
-?>
