@@ -2,7 +2,8 @@
 include_once("../../config/config.php");
 
 // Function to update task
-function updateTask($conn, $id, $title, $description, $status, $priority, $dueDate) {
+function updateTask($conn, $id, $title, $description, $status, $priority, $dueDate)
+{
     $sql = "UPDATE tasks SET title='$title', description='$description', status='$status', priority='$priority', due_date='$dueDate' WHERE id='$id'";
     $result = mysqli_query($conn, $sql);
     if ($result) {
@@ -13,7 +14,7 @@ function updateTask($conn, $id, $title, $description, $status, $priority, $dueDa
 }
 
 // Update task
-if (isset($_POST['taskId'])) {
+if (isset($_POST['updateTask'])) {
     $id = $_POST['taskId'];
     $title = $_POST['title'];
     $description = $_POST['description'];
@@ -22,7 +23,7 @@ if (isset($_POST['taskId'])) {
     $dueDate = $_POST['dueDate'];
 
     // Call the updateTask function
-    if(updateTask($conn, $id, $title, $description, $status, $priority, $dueDate)) {
+    if (updateTask($conn, $id, $title, $description, $status, $priority, $dueDate)) {
         echo "success";
     } else {
         echo "Error updating task";
@@ -30,13 +31,13 @@ if (isset($_POST['taskId'])) {
 }
 
 // Fetch task details
-if(isset($_GET['id'])) {
+if (isset($_GET['id'])) {
     $taskId = $_GET['id'];
 
     $sql = "SELECT * FROM tasks WHERE id = $taskId";
     $result = mysqli_query($conn, $sql);
 
-    if($result) {
+    if ($result) {
         // Fetch the task details
         $task = mysqli_fetch_assoc($result);
 
@@ -47,3 +48,30 @@ if(isset($_GET['id'])) {
     }
 }
 
+// Delete task
+if (isset($_GET['deleteTaskId'])) {
+    $taskId = $_GET['deleteTaskId'];
+
+    $sql = "DELETE FROM tasks WHERE id = $taskId";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        echo "success";
+    } else {
+        echo "Error deleting task: " . mysqli_error($conn);
+    }
+}
+
+// Set task to completed
+if (isset($_POST['completeTaskId'])) {
+    $taskId = $_POST['completeTaskId'];
+
+    $sql = "UPDATE tasks SET status = 'Completed' WHERE id = $taskId";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        echo "success";
+    } else {
+        echo "Error setting task to completed: " . mysqli_error($conn);
+    }
+}

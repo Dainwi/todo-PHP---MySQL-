@@ -5,50 +5,69 @@ include_once "../../includes/topnav.php";
 $userId = $_SESSION['userid'];
 $sql = "SELECT * FROM tasks WHERE user_id = $userId";
 $result = mysqli_query($conn, $sql);
-$count = 1;
+
+if ($result && mysqli_num_rows($result) > 0) {
+    $count = 1;
 ?>
 
-<div class="container">
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Task</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                    <th>Priority</th>
-                    <th>Due Date</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($result as $row): ?>
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                        <td><?php echo $count ?></td>
-                        <td><?php echo $row['title'] ?></td>
-                        <td><?php echo $row['description'] ?></td>
-                        <td><?php echo $row['status'] == 0 ? "Pending" : "Completed"; ?></td>
-                        <td><?php echo $row['priority'] ?></td>
-                        <td><?php echo $row['due_date'] ?></td>
-                        <td>
-                            <a href="#" class="btn btn-primary edit-btn" data-id="<?php echo $row['id'] ?>"
-                                data-bs-toggle="modal" data-bs-target="#editModal">Edit</a>
-                            <a href="delete.php?id=<?php echo $row['id'] ?>" class="btn btn-danger">Delete</a>
-                            <?php if ($row['status'] == 0): ?>
-                                <a href="complete.php?id=<?php echo $row['id'] ?>" class="btn btn-success">Complete</a>
-                            <?php else: ?>
-                                <button class="btn btn-success" disabled>Completed</button>
-                            <?php endif; ?>
-                        </td>
+                        <th></th>
+                        <th>Task</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th>Due Date</th>
+                        <th>Action</th>
                     </tr>
-                    <?php $count++; ?>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php foreach ($result as $row): ?>
+                        <tr>
+                            <td>
+                                <?php echo $count ?>
+                            </td>
+                            <td>
+                                <?php echo $row['title'] ?>
+                            </td>
+                            <td>
+                                <?php echo $row['description'] ?>
+                            </td>
+                            <td>
+                                <?php echo $row['status'] == 0 ? "Pending" : "Completed"; ?>
+                            </td>
+                            <td>
+                                <?php echo $row['priority'] ?>
+                            </td>
+                            <td>
+                                <?php echo $row['due_date'] ?>
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-primary edit-btn" data-id="<?php echo $row['id'] ?>"
+                                    data-bs-toggle="modal" data-bs-target="#editModal">Edit</a>
+                                <a href="#" class="btn btn-danger delete-btn" data-id="<?php echo $row['id'] ?>">Delete</a>
+                                <?php if ($row['status'] == 0): ?>
+                                    <a href="#" data-id="<?php echo $row['id'] ?>" class="btn btn-success complete-btn">Complete</a>
+                                <?php else: ?>
+                                    <button class="btn btn-success" disabled>Completed</button>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                        <?php $count++; ?>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
+<?php
+} else {
+    echo "<div class='container'><h3 class='text-danger'>No tasks found.</h3></div>";
+}
+?>
 <!-- Edit Task Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -95,7 +114,7 @@ $count = 1;
             var taskId = $(this).data('id');
             $.ajax({
                 type: 'GET',
-                url: 'all_tasks_action.php?id=' + taskId,
+                url: 'get_task_details.php?id=' + taskId,
                 success: function (response) {
                     var task = JSON.parse(response);
                     $('#taskId').val(task.id);
@@ -117,6 +136,7 @@ $count = 1;
             var priority = $('#priority').val();
 
             var data = {
+                updateTask: true,
                 taskId: taskId,
                 title: title,
                 description: description,
@@ -126,14 +146,53 @@ $count = 1;
 
             $.ajax({
                 type: 'POST',
-                url: 'all_tasks_action.php?taskId=' + taskId,
+                url: 'all_tasks_action.php',
                 data: data,
                 success: function (response) {
-                    if (response) {
+                    if (response == 'success') {
                         $('#editModal').modal('hide');
                         location.reload();
                     } else {
                         alert('Error updating task');
+                    }
+                }
+            });
+        });
+
+        $('.delete-btn').click(function (e) {
+            e.preventDefault();
+            var taskId = $(this).data('id');
+            if (confirm('Are you sure you want to delete this task?')) {
+                $.ajax({
+                    type: 'GET',
+                    url: 'all_tasks_action.php?deleteTaskId=' + taskId,
+                    success: function (response) {
+                        if (response == 'success') {
+                            location.reload();
+                        } else {
+                            alert('Error deleting task');
+                        }
+                    }
+                });
+            }
+        });
+
+        $('.complete-btn').click(function (e) {
+            e.preventDefault();
+            var taskId = $(this).data('id');
+            var data = {
+                completeTask: true,
+                taskId: taskId
+            };
+            $.ajax({
+                type: 'POST',
+                url: 'all_tasks_action.php?completeTaskId=' + taskId,
+                data: data,
+                success: function (response) {
+                    if (response == 'success') {
+                        location.reload();
+                    } else {
+                        alert('Error updating task status');
                     }
                 }
             });
