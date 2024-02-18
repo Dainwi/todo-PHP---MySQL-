@@ -11,7 +11,7 @@ include_once "../../includes/topnav.php";
         <div class="card-body">
           <h5 class="card-title">Upcoming Tasks</h5>
           <p class="card-text">Here you can view all your upcoming tasks.</p>
-          <a href="#" class="btn btn-primary">View Tasks</a>
+          <a href="<?php echo $url .'/pages/all_tasks' ?>" class="btn btn-primary">View Tasks</a>
         </div>
       </div>
     </div>

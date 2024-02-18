@@ -2,7 +2,7 @@
 session_start();
 include "../../config/config.php";
 
-if(isset($_POST['email'], $_POST['password'])) {
+if (isset($_POST['email'], $_POST['password'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
@@ -13,14 +13,14 @@ if(isset($_POST['email'], $_POST['password'])) {
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if($result->num_rows > 0) {
+    if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
-        
+
         // Verify password
-        if(password_verify($password, $user['password'])) {
+        if (password_verify($password, $user['password'])) {
             // Set session variable
             $_SESSION['userid'] = $user['id'];
-            
+           
             echo 'success';
         } else {
             // Set error message
