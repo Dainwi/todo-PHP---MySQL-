@@ -9,7 +9,7 @@
                     <a class="ms-2" href="<?php echo $url . '/pages/dashboard' ?>"><i class="fa-solid fa-house fs-3"></i></a>
                 </div>
 
-                <a href="logout.php">
+                <a href="<?php echo $url.'/logout.php' ?>">
                     <i class="fa-solid fa-right-from-bracket fs-3"></i>
                 </a>
             </div>

@@ -1,0 +1,223 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,400i,700");
+
+$item-colors: #ff99c8, #fcf6bd, #d0f4de, #a9def9, #e4c1f9;
+
+* {
+  box-sizing: border-box;
+}
+:root {
+  font-family: Montserrat, sans-serif;
+  font-size: 16px;
+}
+:root {
+  --shadow-color: 45deg 34% 48%;
+  --shadow-elevation-low: -1px 1px 1.1px hsl(var(--shadow-color) / 0.84),
+    -1.4px 1.4px 1.5px -2.5px hsl(var(--shadow-color) / 0.56),
+    -4.4px 4.4px 4.7px -5px hsl(var(--shadow-color) / 0.28);
+  --shadow-elevation-medium: -1px 1px 1.1px hsl(var(--shadow-color) / 0.7),
+    -1.3px 1.3px 1.4px -1.2px hsl(var(--shadow-color) / 0.56),
+    -3.6px 3.6px 3.8px -2.5px hsl(var(--shadow-color) / 0.42),
+    -9.9px 9.9px 10.5px -3.7px hsl(var(--shadow-color) / 0.28),
+    -22.1px 22.1px 23.4px -5px hsl(var(--shadow-color) / 0.14);
+}
+
+html,
+body {
+  height: 100%;
+  background: #e9d8a6;
+}
+
+.body-scss {
+  display: flex;
+}
+
+.container {
+  box-shadow: var(--shadow-elevation-medium);
+  margin: auto;
+  width: 300px;
+  aspect-ratio: 2/3;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 24px;
+  transition: all 500ms;
+  &:hover {
+    box-shadow: var(--shadow-elevation-low);
+  }
+
+  .item {
+    --shadow-color: 0deg 0% 55%;
+    --shadow-elevation-low: -1px 1px 1.1px hsl(var(--shadow-color) / 0.84),
+      -1.4px 1.4px 1.5px -2.5px hsl(var(--shadow-color) / 0.56),
+      -4.4px 4.4px 4.7px -5px hsl(var(--shadow-color) / 0.28);
+    --shadow-elevation-high: -1px 1px 1.1px hsl(var(--shadow-color) / 0.65),
+      -1.2px 1.2px 1.3px -0.6px hsl(var(--shadow-color) / 0.59),
+      -2.3px 2.3px 2.4px -1.1px hsl(var(--shadow-color) / 0.52),
+      -5.4px 5.4px 5.7px -1.7px hsl(var(--shadow-color) / 0.46),
+      -11.5px 11.5px 12.2px -2.2px hsl(var(--shadow-color) / 0.39),
+      -21.6px 21.6px 22.9px -2.8px hsl(var(--shadow-color) / 0.33),
+      -36.6px 36.6px 38.8px -3.3px hsl(var(--shadow-color) / 0.26),
+      -57.5px 57.5px 61px -3.9px hsl(var(--shadow-color) / 0.2),
+      -85.3px 85.3px 90.5px -4.4px hsl(var(--shadow-color) / 0.13),
+      -121px 121px 128.3px -5px hsl(var(--shadow-color) / 0.07);
+    min-height: 0;
+    background-color: white;
+    flex: 1;
+    transition: all 250ms;
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    background-color: var(--item-color);
+    box-shadow: var(--shadow-elevation-low);
+    .close {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      margin: 6px;
+      border-radius: 6px;
+      right: 0;
+      top: 0;
+      background-color: #ff004d;
+      mix-blend-mode: luminosity;
+      z-index: 3;
+      pointer-events: none;
+      opacity: 0;
+      transition: all 250ms;
+    }
+
+    &::after {
+      background-color: var(--item-color);
+      content: "";
+      position: absolute;
+      inset: 0;
+      filter: blur(0px);
+      border-radius: 12px;
+      transition: all 250ms;
+    }
+    &:hover {
+      filter: brightness(1.1);
+      box-shadow: var(--shadow-elevation-high);
+
+      &::after {
+        filter: blur(12px);
+      }
+    }
+    &:active {
+      box-shadow: var(--shadow-elevation-low);
+      opacity: 0.8;
+      flex: 0.8;
+      &::after {
+        filter: blur(6px);
+      }
+    }
+    &.active {
+      box-shadow: var(--shadow-elevation-low);
+      flex: 3;
+      animation: s 750ms;
+      .close {
+        opacity: 0.6;
+        pointer-events: auto;
+        &:hover {
+          opacity: 0.8;
+        }
+        &:active {
+          opacity: 1;
+        }
+      }
+      &:has(.close:active) {
+        flex: 3.5;
+      }
+    }
+    @for $i from 1 through length($item-colors) {
+      &--#{$i} {
+        --item-color: #{nth($item-colors, $i)};
+        --item-color-dark: #{darken(nth($item-colors, $i), 50%)};
+      }
+    }
+  }
+  @for $i from 1 through length($item-colors) {
+    &:has(.item--#{$i}.active) {
+      background-color: mix(opacify(nth($item-colors, $i), 0.8%), #fff, 20%);
+    }
+  }
+  @for $i from 1 through length($item-colors) {
+    &:has(.item--#{$i}:hover) {
+      background-color: mix(opacify(nth($item-colors, $i), 0.8%), #fff, 20%);
+    }
+  }
+}
+
+@keyframes s {
+  0.00% {
+    flex: 1;
+  }
+  23.37% {
+    flex: 3.82;
+  }
+  74.46% {
+    flex: 2.86;
+  }
+  100.00% {
+    flex: 3;
+  }
+}
+
+.heading,
+.content {
+  position: relative;
+  z-index: 2;
+  transition: all 250ms;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+.heading {
+  pointer-events: none;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  font-weight: 600;
+  transition: all 250ms;
+  text-wrap: balance;
+}
+.content {
+  min-height: 0;
+  opacity: 0;
+  flex: 0;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 0.25rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--item-color-dark);
+    border-radius: 9999px;
+  }
+}
+.note {
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  color: #607274;
+}
+
+.item.active {
+  .heading {
+    padding-top: 8px;
+    height: 2.5rem;
+    color: var(--item-color-dark);
+  }
+  .content {
+    opacity: 1;
+    flex: 10;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
