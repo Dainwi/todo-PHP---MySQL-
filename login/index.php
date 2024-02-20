@@ -15,7 +15,7 @@ include_once('../includes/header.php');
                 </fieldset>
                 <button type="submit" id="submit">Sign In</button>
                 <div class="mt-2" style="display: flex; flex-direction:column">
-                    <a href="<?php echo $url.'/signup' ?>">Don't have an account? Register here</a>
+                    <a href="<?php echo $url . '/signup' ?>">Don't have an account? Register here</a>
                     <a href="forgot_password.php">Forgot Password?</a>
                 </div>
             </form>

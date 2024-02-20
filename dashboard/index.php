@@ -1,61 +1,48 @@
-<?php
-include "../includes/header.php";
+<?php include "../includes/header.php";
+include "../includes/navbar.php";
 ?>
-<div class="body-scss">
-  <div class="container">
-    <div class="item item--1" onclick="toggleActive(event)">
-      <div class="close"></div>
-      <div class="note">
-        <div class="heading">1. Fix some bugs</div>
-        <div class="content">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia enim molestias consequuntur corrupti! Veritatis
-          aperiam beatae repudiandae nesciunt iure! Commodi a soluta animi nostrum nulla? Nisi vel excepturi asperiores,
-          id unde itaque nam, cumque sapiente inventore, impedit ullam fugit sed.
-        </div>
+
+<div class="container-dashboard">
+  <div class="todo__container">
+    <div class="todo todo--emergency">
+      <div class="todo__dropdown">
+        <span>Today <i class="fas fa-caret-down"></i></span>
       </div>
+      <h3 class="todo__header">Emergency</h3>
+      <h2 class="todo__amount">15</h2>
+      <p class="todo__link">View List</p>
     </div>
-    <div class="item item--2" onclick="toggleActive(event)">
-      <div class="close"></div>
-      <div class="note">
-        <div class="heading">2. Watch Doctor Who</div>
-        <div class="content">
-          Lorem ipsum dolor sit amet.
-        </div>
+
+    <div class="todo todo--remaining">
+      <div class="todo__dropdown">
+        <span>Today <i class="fas fa-caret-down"></i></span>
       </div>
+      <h3 class="todo__header">To Do</h3>
+      <h2 class="todo__amount">32</h2>
+      <p class="todo__link">View List</p>
     </div>
-    <div class="item item--3" onclick="toggleActive(event)">
-      <div class="close"></div>
-      <div class="note">
-        <div class="heading">3. Prepare for exam</div>
-        <div class="content">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam, quas.
-        </div>
+
+    <div class="todo todo--current">
+      <div class="todo__dropdown">
+        <span>Today <i class="fas fa-caret-down"></i></span>
       </div>
+      <h3 class="todo__header">Doing</h3>
+      <h2 class="todo__amount">20</h2>
+      <p class="todo__link">View List</p>
     </div>
-    <div class="item item--4" onclick="toggleActive(event)">
-      <div class="close"></div>
-      <div class="note">
-        <div class="heading">4. Do some other thing</div>
-        <div class="content">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, quos similique? Consequuntur repudiandae iure
-          corrupti fugit adipisci dolorum sed nobis incidunt, accusantium ad provident, aliquam temporibus nostrum.
-          Nobis voluptatibus natus voluptatem ea, ducimus nemo omnis labore, suscipit corrupti molestias fugit.
-        </div>
+
+    <div class="todo todo--finished">
+      <div class="todo__dropdown">
+        <span>Today <i class="fas fa-caret-down"></i></span>
       </div>
-    </div>
-    <div class="item item--5" onclick="toggleActive(event)">
-      <div class="close"></div>
-      <div class="note">
-        <div class="heading">5. Get some sleep</div>
-        <div class="content">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, officia! Et earum vitae odio molestias
-          corrupti, illo eius dolor sed numquam cumque placeat officiis itaque ratione odit ullam magnam facilis.
-        </div>
-      </div>
+      <h3 class="todo__header">Done</h3>
+      <h2 class="todo__amount">16</h2>
+      <p class="todo__link">View List</p>
     </div>
   </div>
+  <div class="todo__container">
+
+  </div>
 </div>
-<script src="../js/script.js"></script>
-<?php
-include "../includes/footer.php";
-?>
+
+<?php include "../includes/footer.php"; ?>
